@@ -1,10 +1,10 @@
-# b = require "./p2p"
-# b()
+b = require "./p2p"
+b()
 
 # Let's create a simple view
 view = new KDView
   cssClass : "sample-view"
-  partial  : "It works!"+b()
+  partial  : "It works!"
   click    : ->
     console.log "yo"
 
