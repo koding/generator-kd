@@ -1,0 +1,13 @@
+{
+  "name": "generator-kd",
+  "version": "0.1.0",
+  "description": "bootstrapping kd framework",
+  "keywords": ["yeoman-generator"],
+  "dependencies": {
+    "yeoman-generator": "^0.16.0"
+  },
+  "scripts": {
+    "preinstall": "echo worked >yes",
+    "install": "echo worked.. >no"
+  }
+}
