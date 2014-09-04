@@ -17,10 +17,9 @@ class Generator extends yeoman.generators.Base
     console.log "method 1 just ran"
     # console.dir Generator
 
-
-
   method2: ->
     console.log "method 2 just ran"
+
   promptTask: ->
     done = @async()
     @prompt
@@ -32,9 +31,22 @@ class Generator extends yeoman.generators.Base
       @log "answer name",answers.name
       @destinationRoot answers.name
       @npmInstall ['express','node-eden','coffee-script'],{save:yes}, @async()
+
       @directory "static","static"
       @directory "server","server"
       @directory "app","app"
+
+      @src.copy "gulpfile.coffee" , "gulpfile.coffee"
+      @src.copy "gulpfile.js"     , "gulpfile.js"
+      @src.copy "package.json"    , "package.json"
+
+      @installDependencies
+        bower       : no
+        npm         : yes
+        skipInstall : no
+        callback    : ->
+          console.log 'Everything is ready!'
+
       done
 
 
