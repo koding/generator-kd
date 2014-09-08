@@ -11,11 +11,13 @@ argv       = require('minimist') process.argv
 browserify = require 'browserify'
 coffeeify  = require 'coffeeify'
 source     = require 'vinyl-source-stream'
+nodemon    = require 'gulp-nodemon'
 
 STYLES_PATH = ['./app/styl/**/*.styl']
 COFFEE_PATH = ['./app/coffee/**/*.coffee']
 INDEX_PATH  = ['./app/index.html']
-SERVER_PATH = './server/server.coffee'
+SERVER_FILE = './server/server.coffee'
+SERVER_PATH = ['./server/**/*.coffee']
 
 BUILD_PATH  = argv.outputDir ? 'static'
 
@@ -35,7 +37,9 @@ gulpBrowserify = (options, bundleOptions) ->
   b.bundle bundleOptions
 
 gulp.task 'serve', ['build'], ->
-  server = require SERVER_PATH
+  server = nodemon script: SERVER_FILE
+
+gulp.task 'watch-server', -> watchLogger 'cyan', gulp.watch SERVER_PATH, ['serve']
 
 gulp.task 'styles', ->
 
