@@ -8,3 +8,9 @@ html {
   box-sizing: border-box;
   padding: 20px;
 }
+textarea.kdinput.text.editable {
+    width : 600px;
+    height: 400px;
+
+}
+

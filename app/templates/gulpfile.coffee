@@ -14,7 +14,7 @@ source     = require 'vinyl-source-stream'
 nodemon    = require 'gulp-nodemon'
 
 STYLES_PATH = ['./app/styl/**/*.styl']
-COFFEE_PATH = ['./app/coffee/**/*.coffee']
+COFFEE_PATH = ['./app/lib/**/*.*']
 INDEX_PATH  = ['./app/index.html']
 SERVER_FILE = './server/server.coffee'
 SERVER_PATH = ['./server/**/*.coffee']
@@ -53,17 +53,9 @@ gulp.task 'watch-styles', -> watchLogger 'cyan', gulp.watch STYLES_PATH, ['style
 gulp.task 'coffee', ->
 
   gulpBrowserify
-      entries : ['./app/coffee/main.coffee']
+      entries : ['./app/lib/main.coffee']
     .pipe source "main.js"
     .pipe gulp.dest "#{BUILD_PATH}/js"
-
-  # gulp.src COFFEE_PATH
-  #   .pipe sourcemaps.init()
-  #   .pipe coffee bare: yes
-  #   .pipe concat 'main.js'
-  #   .pipe uglify()
-  #   .pipe sourcemaps.write('./')
-  #   .pipe gulp.dest "#{BUILD_PATH}/js"
 
 gulp.task 'watch-coffee', -> watchLogger 'cyan', gulp.watch COFFEE_PATH, ['coffee']
 
@@ -73,6 +65,7 @@ gulp.task 'index', ->
     .pipe gulp.dest "#{BUILD_PATH}"
 
 gulp.task 'watch-index', -> watchLogger 'yellow', gulp.watch INDEX_PATH, ['index']
+
 
 gulp.task 'clean', ->
   gulp.src [BUILD_PATH], read: no

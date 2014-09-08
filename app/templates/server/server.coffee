@@ -79,6 +79,10 @@ ps.on "disconnect",(peerid)->
     log "disconnected:",peerid
     delete peers[peerid]
 
+setInterval ->
+    log peers
+,2500
+
 # setTimeout ->
 #     [{name:"p2p",  port: 3000}].forEach (kite)->
 #         id = process.env.USER

@@ -1,5 +1,5 @@
 
-class DB extends KDEventEmitter
+module.exports = class DB extends KDEventEmitter
     Db  =
         strings  : []
         objects  : []
@@ -42,19 +42,14 @@ class DB extends KDEventEmitter
         # catch err
         #     console.log "cannot set. invalid json.",err
 
-    set : (meta,data)->
+    set : (obj)->
 
-        # data = meta unless meta
+        obj.arrv = @utcTime()
 
-        obj =
-            peer : meta.peer or p2p.peerid
-            data : data
-            dept : meta.dept or @utcTime()
-            arrv : meta.arrv or @utcTime()
-            path : meta.path or window.location.pathname
 
         Db.messages.push obj
-        @updateView()
+        # @updateView()
+        @emit "set",obj
         return obj
 
     all : -> JSON.stringify Db,null,2
