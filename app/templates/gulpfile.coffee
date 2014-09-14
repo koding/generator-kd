@@ -2,9 +2,8 @@ gulp       = require 'gulp'
 gutil      = require 'gulp-util'
 coffee     = require 'gulp-coffee'
 rename     = require 'gulp-rename'
-uglify     = require 'gulp-uglify'
 stylus     = require 'gulp-stylus'
-clean      = require 'gulp-clean'
+rimraf     = require 'gulp-rimraf'
 concat     = require 'gulp-concat'
 sourcemaps = require 'gulp-sourcemaps'
 argv       = require('minimist') process.argv
@@ -14,14 +13,11 @@ source     = require 'vinyl-source-stream'
 nodemon    = require 'gulp-nodemon'
 
 STYLES_PATH = ['./app/styl/**/*.styl']
-COFFEE_PATH = ['./app/lib/**/*.*']
+COFFEE_PATH = ['./app/coffee/**/*.coffee']
 INDEX_PATH  = ['./app/index.html']
 SERVER_FILE = './server/server.coffee'
 SERVER_PATH = ['./server/**/*.coffee']
-
 BUILD_PATH  = argv.outputDir ? 'static'
-
-SERVER_PORT = argv.port ? 9800
 
 log = (color, message) -> gutil.log gutil.colors[color] message
 
@@ -29,12 +25,11 @@ watchLogger = (color, watcher) ->
   watcher.on 'change', (event) ->
     log color, "file #{event.path} was #{event.type}"
 
-gulpBrowserify = (options, bundleOptions) ->
+gulpBrowserify = (options) ->
   options.extensions or= ['.coffee']
-  bundleOptions or= {}
   b = browserify options
   b.transform coffeeify
-  b.bundle bundleOptions
+  b.bundle()
 
 gulp.task 'serve', ['build'], ->
   server = nodemon script: SERVER_FILE
@@ -53,7 +48,7 @@ gulp.task 'watch-styles', -> watchLogger 'cyan', gulp.watch STYLES_PATH, ['style
 gulp.task 'coffee', ->
 
   gulpBrowserify
-      entries : ['./app/lib/main.coffee']
+      entries : ['./app/coffee/main.coffee']
     .pipe source "main.js"
     .pipe gulp.dest "#{BUILD_PATH}/js"
 
@@ -69,7 +64,7 @@ gulp.task 'watch-index', -> watchLogger 'yellow', gulp.watch INDEX_PATH, ['index
 
 gulp.task 'clean', ->
   gulp.src [BUILD_PATH], read: no
-    .pipe clean force: yes
+    .pipe rimraf force: yes
 
 gulp.task 'build', ['styles', 'coffee', 'index']
 
