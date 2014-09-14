@@ -11,13 +11,6 @@ class Generator extends yeoman.generators.Base
     @option 'coffee' # This method adds support for a `--coffee` flag
     @destinationRoot @env.cwd
 
-  method1: ->
-    console.log "method 1 just ran"
-    # console.dir Generator
-
-  method2: ->
-    console.log "method 2 just ran"
-
   promptTask: ->
     done = @async()
     @prompt
