@@ -1,3 +1,3 @@
 do ->
 
-  console.log 'run server!'
+  console.log 'run a server of your choice here!!!'
