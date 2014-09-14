@@ -1,4 +1,4 @@
-yeoman = require('yeoman-generator')
+yeoman = require 'yeoman-generator'
 
 class Generator extends yeoman.generators.Base
 
@@ -8,10 +8,8 @@ class Generator extends yeoman.generators.Base
     # Calling the super constructor is important so our generator is correctly setup
     yeoman.generators.Base.apply this, arguments
 
-    @option "coffee" # This method adds support for a `--coffee` flag
-    console.log "destination root:",@env.cwd
+    @option 'coffee' # This method adds support for a `--coffee` flag
     @destinationRoot @env.cwd
-    # console.dir @options
 
   method1: ->
     console.log "method 1 just ran"
@@ -23,22 +21,22 @@ class Generator extends yeoman.generators.Base
   promptTask: ->
     done = @async()
     @prompt
-      type: "input"
-      name: "name"
-      message: "Install dir"
-      default: @env.cwd+"/mykdapp"
+      type    : 'input'
+      name    : 'name'
+      message : 'Install dir'
+      default : "#{@env.cwd}/mykdapp"
     , (answers) =>
-      @log "answer name",answers.name
+      @log 'Installing under:', answers.name
       @destinationRoot answers.name
       @npmInstall ['express','node-eden','coffee-script'],{save:yes}, @async()
 
-      @directory "static","static"
-      @directory "server","server"
-      @directory "app","app"
+      @directory 'static', 'static'
+      @directory 'server', 'server'
+      @directory 'app'   , 'app'
 
-      @src.copy "gulpfile.coffee" , "gulpfile.coffee"
-      @src.copy "gulpfile.js"     , "gulpfile.js"
-      @src.copy "package.json"    , "package.json"
+      @src.copy 'gulpfile.coffee', 'gulpfile.coffee'
+      @src.copy 'gulpfile.js'    , 'gulpfile.js'
+      @src.copy 'package.json'   , 'package.json'
 
       @installDependencies
         bower       : no
